@@ -19,7 +19,9 @@ export class Pixel {
   @Column()
   y: number;
 
-  @ManyToOne(() => User, (user) => user.pixel)
+  @ManyToOne(() => User, (user) => user.pixel, {
+    nullable: false,
+  })
   user: User;
 
   @Column()
