@@ -14,7 +14,7 @@ import { UserService } from 'src/user/user.service';
 
 dotenv.config();
 
-@WebSocketGateway({ cors: { origin: process.env.FRONT_URL } })
+@WebSocketGateway({ cors: { origin: '*' }})
 export class PixelGateway {
   @WebSocketServer()
   public server: Server;
