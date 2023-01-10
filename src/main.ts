@@ -8,7 +8,7 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: { origin: process.env.FRONT_URL },
+    cors: ["*"],
   });
   app.setGlobalPrefix('api/v1');
 
