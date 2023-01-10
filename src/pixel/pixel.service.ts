@@ -1,54 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PixelDto } from './dto/pixel.dto';
-import { Pixel } from './entities/pixel.entity';
+import { CreatePixelDto } from './dto/create-pixel.dto';
+import { UpdatePixelDto } from './dto/update-pixel.dto';
+import { PixelEntity } from './entities/pixel.entity';
 
 @Injectable()
 export class PixelService {
   constructor(
-    @InjectRepository(Pixel) private pixelRepository: Repository<Pixel>,
-  ) {}
+    @InjectRepository(PixelEntity)
+    private pixelRepository: Repository<PixelEntity>,
+  ) { }
 
-  create(createPixelDto: PixelDto): Promise<Pixel> {
-    return this.pixelRepository.save(createPixelDto)
+  async create(createPixelDto: CreatePixelDto) {
+    console.log('PixelService create', createPixelDto);
+    const pixel = await this.pixelRepository.create(createPixelDto);
+    return await this.pixelRepository.save(pixel);
   }
 
-  async findAll(): Promise<Pixel[]> {
-    return await this.pixelRepository.find()
+  async findAll() {
+    const pixels = await this.pixelRepository.find();
+    return pixels;
   }
 
-  async findByCoordinates(x: number, y: number): Promise<Pixel[]> {
-    return await this.pixelRepository.find({
-      where: {
-        x: x,
-        y: y,
-      },
-      relations: ['user'],
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+  findOne(id: number) {
+    return `This action returns a #${id} pixel`;
   }
 
-  async findByUser(userId: string): Promise<Pixel[]> {
-    return await this.pixelRepository.find({
-      where: {
-        user: {
-          id: userId,
-        },
-      },
-    });
+  update(id: number, updatePixelDto: UpdatePixelDto) {
+    return `This action updates a #${id} pixel`;
   }
 
-  async findLastTwentyUser(): Promise<Pixel[]> {
-    return await this.pixelRepository.find({
-      relations: ['user'],
-      order: {
-        createdAt: 'DESC',
-      },
-      select: ['id', 'createdAt', 'user'],
-      take: 20,
-    });
+  remove(id: number) {
+    return `This action removes a #${id} pixel`;
   }
 }

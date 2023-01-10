@@ -1,49 +1,27 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { RolesGuard } from './auth/guards/roles.guard';
+import { AppGateway } from './gateway/app.gateway';
 import { PixelModule } from './pixel/pixel.module';
-import { UserModule } from './user/user.module';
-import { TeamModule } from './team/team.module';
-import { UploadFileModule } from './upload-file/upload-file.module';
-import { ScreenshotModule } from './screenshot/screenshot.module';
-import { GameModule } from './game/game.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: "postgres",
       host: process.env.POSTGRESQL_ADDON_HOST,
       port: parseInt(process.env.POSTGRESQL_ADDON_PORT),
       username: process.env.POSTGRESQL_ADDON_USER,
       password: process.env.POSTGRESQL_ADDON_PASSWORD,
       database: process.env.POSTGRESQL_ADDON_DB,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
-    AuthModule,
-    PixelModule,
-    UserModule,
-    TeamModule,
-    UploadFileModule,
-    ScreenshotModule,
-    GameModule,
+    PixelModule
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

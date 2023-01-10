@@ -1,37 +1,34 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { PixelDto } from './dto/pixel.dto';
-import { Pixel } from './entities/pixel.entity';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PixelService } from './pixel.service';
+import { CreatePixelDto } from './dto/create-pixel.dto';
+import { UpdatePixelDto } from './dto/update-pixel.dto';
 
 @Controller('pixel')
 export class PixelController {
   constructor(private readonly pixelService: PixelService) {}
 
+  @Post()
+  create(@Body() createPixelDto: CreatePixelDto) {
+    return this.pixelService.create(createPixelDto);
+  }
+
   @Get()
-  findAll(): Promise<Pixel[]> {
+  findAll() {
     return this.pixelService.findAll();
   }
 
-  @Post()
-  create(@Body() datas: PixelDto): Promise<Pixel> {
-    return this.pixelService.create(datas);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.pixelService.findOne(+id);
   }
 
-  @Get('coordinates/:x/:y')
-  findByCoordinates(
-    @Param('x') x: number,
-    @Param('y') y: number,
-  ): Promise<Pixel[]> {
-    return this.pixelService.findByCoordinates(x, y);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updatePixelDto: UpdatePixelDto) {
+    return this.pixelService.update(+id, updatePixelDto);
   }
 
-  @Get('user/:userId')
-  findByUser(@Param('userId') userId: string): Promise<Pixel[]> {
-    return this.pixelService.findByUser(userId);
-  }
-
-  @Get('last-twenty-user')
-  findLastTwentyUser(): Promise<Pixel[]> {
-    return this.pixelService.findLastTwentyUser();
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.pixelService.remove(+id);
   }
 }
