@@ -22,6 +22,7 @@ import { TeamModule } from './team/team.module';
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
+    
     PixelModule,
     AuthModule,
     UserModule,
@@ -30,4 +31,6 @@ import { TeamModule } from './team/team.module';
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })
-export class AppModule {}
+export class AppModule {
+
+}
