@@ -1,25 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreatePixelDto } from './dto/create-pixel.dto';
 import { UpdatePixelDto } from './dto/update-pixel.dto';
-import { PixelEntity } from './entities/pixel.entity';
+import { Pixel, PixelDocument } from './model/pixel.model';
 
 @Injectable()
 export class PixelService {
   constructor(
-    @InjectRepository(PixelEntity)
-    private pixelRepository: Repository<PixelEntity>,
-  ) { }
+    @InjectModel(Pixel.name) private pixelModel: Model<PixelDocument>,
+  ) {}
 
   async create(createPixelDto: CreatePixelDto) {
     console.log('PixelService create', createPixelDto);
-    const pixel = await this.pixelRepository.create(createPixelDto);
-    return await this.pixelRepository.save(pixel);
+    const pixel = await new this.pixelModel(createPixelDto);
+    return await pixel.save();
   }
 
   async findAll() {
-    const pixels = await this.pixelRepository.find();
+    const pixels = await this.pixelModel.find();
     return pixels;
   }
 

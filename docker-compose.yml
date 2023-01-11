@@ -1,20 +1,12 @@
+version: '3.8'
 services:
-  postgres:
-    image: postgres
-    container_name: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRESQL_ADDON_USER}
-      POSTGRES_PASSWORD: ${POSTGRESQL_ADDON_PASSWORD}
-      POSTGRES_DB: ${POSTGRESQL_ADDON_DB}
-    ports:
-      - 5432:5432
+  mongo:
+    image: mongo
+    container_name: mongo
     restart: always
-  adminer:
-    container_name: adminer
-    environment:
-      ADMINER_DESIGN: pepa-linha
-      ADMINER_DEFAULT_SERVER: postgres
-    image: adminer
     ports:
-      - 8080:8080
-    restart: always
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}

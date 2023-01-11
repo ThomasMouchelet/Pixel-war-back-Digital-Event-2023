@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PixelService } from './pixel.service';
 import { CreatePixelDto } from './dto/create-pixel.dto';
 import { UpdatePixelDto } from './dto/update-pixel.dto';

@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { PixelService } from './pixel.service';
 import { PixelController } from './pixel.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PixelEntity } from './entities/pixel.entity';
-import { UserModule } from 'src/user/user.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Pixel, PixelSchema } from './model/pixel.model';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PixelEntity]),
-    UserModule
+    MongooseModule.forFeature([{ name: Pixel.name, schema: PixelSchema }]),
   ],
   controllers: [PixelController],
   providers: [PixelService],
