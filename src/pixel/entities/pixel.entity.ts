@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("pixel")
 export class PixelEntity {
@@ -13,4 +14,7 @@ export class PixelEntity {
 
     @Column()
     color: string;
+
+    @ManyToOne(() => User, (user) => user.pixel)
+    user: User;
 }

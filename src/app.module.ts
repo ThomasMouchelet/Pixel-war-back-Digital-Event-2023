@@ -5,6 +5,9 @@ import { AppService } from './app.service';
 import { AppGateway } from './gateway/app.gateway';
 import { PixelModule } from './pixel/pixel.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -19,7 +22,10 @@ import { ConfigModule } from '@nestjs/config';
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
-    PixelModule
+    PixelModule,
+    AuthModule,
+    UserModule,
+    TeamModule
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],
